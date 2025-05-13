@@ -1,44 +1,104 @@
-# attendance_summary.py
-# Python script to summarize attendance from a virtual dataset.
-# This was part of a practice combining Linux commands and Python scripting.
-# 
-# Troubleshooting log:
-# - Fixed syntax error from accidental quote at end of for loop line.
-# - Corrected variable name typo: 'presnet' -> 'present'.
-# - Fixed f-string formatting error: malformed {tardy} field.
-# - Added defensive check for empty lines to prevent IndexError.
+# 📊 Attendance Analyzer
 
-# Open the attendance file
-file = open("attendance.txt", "r")
+A mini-project to practice **Linux I/O pipeline commands** and **Python scripting** using a virtual attendance log.  
+This project was built on a work **MacBook Air** (macOS terminal + vim).
 
-# Dictionary to store each student's attendance counts
-attendance = {}
+---
 
-# Read and parse each line
-for line in file:
-    parts = line.strip().split()
-    if len(parts) < 3:
-        continue  # Skip empty or malformed lines
-    name = parts[1]
-    status = parts[2]
+## 📂 Project Overview
 
-    if name not in attendance:
-        attendance[name] = {"Present": 0, "Absent": 0, "Tardy": 0}
+This project:
 
-    attendance[name][status] += 1
+- Reads attendance data from `attendance.txt`
+- Analyzes the number of `Present`, `Absent`, and `Tardy` entries per student
+- Applies the rule: **3 Tardies = 1 Absent**
+- Prints a summary table using formatted output
 
-file.close()
+---
 
-# Display header
-print("Name            Present      Absent   Tardy   Final Absents")
-print("-----------------------------------------------------------")
+## 🛠 Technologies Used
 
-# Summarize each student's final attendance
-for name in sorted(attendance.keys()):
-    present = attendance[name]["Present"]
-    absent = attendance[name]["Absent"]
-    tardy = attendance[name]["Tardy"]
-    final_absents = absent + (tardy // 3)  # 3 Tardies count as 1 absence
+- Linux CLI: `cat`, `grep`, `sort`, `uniq`, `|`
+- Python: file I/O, string manipulation, dictionaries, f-strings
+- GitHub: project version control & portfolio visibility
+- Terminal editor: `vim` on macOS
 
-    print(f"{name:<15}{present:<12}{absent:<8}{tardy:<8}{final_absents}")
+---
+
+## 📁 Files
+
+| File                  | Description                                  |
+|-----------------------|----------------------------------------------|
+| `attendance.txt`      | Sample attendance log (Jan 1–5, 2025)        |
+| `attendance_summary.py` | Python script to summarize attendance     |
+| `README.md`           | Project explanation & troubleshooting log    |
+
+---
+
+## 🧪 Sample Output
+
+```
+Name        Present  Absent  Tardy  Final Absents
+-------------------------------------------------
+Alpha       5        0       0      0
+Beta        3        2       0      2
+...
+```
+
+---
+
+## 🧱 Linux CLI Practice
+
+```bash
+cat attendance.txt | grep "Absent" | sort | uniq
+```
+
+Used to filter and analyze the attendance log from the terminal.  
+Great for learning I/O pipelines and basic log parsing.
+
+---
+
+## 🐍 Python Script
+
+Run the script:
+
+```bash
+python3 attendance_summary.py
+```
+
+It calculates each student's summary and prints a formatted result.
+
+---
+
+## 🧰 Troubleshooting Experience
+
+While building this, I encountered real beginner issues and solved them myself:
+
+- ❌ **SyntaxError: EOL while scanning string literal**  
+  → Fixed a rogue `"` after `for` loop
+
+- ❌ **f-string: single '}' is not allowed**  
+  → Corrected formatting: `<tardy:<6}` → `{tardy:<6}`
+
+- ❌ **NameError: name 'attendance' is not defined**  
+  → Added `attendance = {}` at the top
+
+- ❌ **IndexError: list index out of range**  
+  → Handled blank lines with `if len(parts) < 3: continue`
+
+- ❌ **Only one student printed**  
+  → Fixed logic where attendance wasn't updating correctly
+
+These are all normal first-time mistakes — debugging them taught me a lot. 👍
+
+---
+
+## 🤔 Why I Made This
+
+To combine:
+
+- Practical Linux command usage  
+- Beginner-friendly but real Python scripting with logic
+
+This is one of my first hands-on IT learning repos, and more will follow.
 
